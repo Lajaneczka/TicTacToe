@@ -1,9 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 
-const Square = ({value}) =>{
+const Square = ({value, onClick}) => {
   
     return (
-      <button className="square">
+      <button 
+      className="square" 
+      onClick={onClick}>
         {value}
       </button>
     );
@@ -11,11 +13,27 @@ const Square = ({value}) =>{
 }
 
 const Board = () => {
+
+  const [squares, setSquares] = useState(Array(9).fill(null));
+  const [isNext, setIsNext] = useState(true);
+
+  const handleClick = (i) => {
+    const square = squares.slice()
+    square[i] = isNext ? 'X': 'O';
+    setSquares(square)
+    setIsNext(!isNext)
+  }
+  
   
   const renderSquare = (i) => {
-    return <Square value={i} />;
+    return (
+      <Square 
+    value={squares[i]} 
+    onClick={() => handleClick(i)}
+    />
+    );
   }
-    const status = 'Next player: X';
+    const status = `Next player: ${isNext ? 'X' : 'O'}` ;
 
     return (
       <div>
