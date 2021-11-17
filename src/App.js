@@ -18,7 +18,10 @@ const Board = () => {
   const [isNext, setIsNext] = useState(true);
 
   const handleClick = (i) => {
-    const square = squares.slice()
+    const square = squares.slice();
+    if(calculateWinner(squares) || square[i]) {
+      return;
+    }
     square[i] = isNext ? 'X': 'O';
     setSquares(square)
     setIsNext(!isNext)
@@ -33,7 +36,13 @@ const Board = () => {
     />
     );
   }
-    const status = `Next player: ${isNext ? 'X' : 'O'}` ;
+    const winner = calculateWinner(squares);
+    let status;
+    if(winner) {
+      status = `Wygrywa ${winner}`
+    }else {
+      status = `Następny gracz ${isNext ? 'X' : 'O'}`
+    }
 
     return (
       <div>
@@ -71,6 +80,26 @@ export const Game = () => {
       </div>
     );
   
+}
+
+function calculateWinner(squares) {
+  const lines = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
+  for (let i = 0; i < lines.length; i++) {
+    const [a, b, c] = lines[i];
+    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+      return squares[a];
+    }
+  }
+  return null;
 }
 
 
