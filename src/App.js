@@ -1,4 +1,6 @@
 import React, {useState} from 'react';
+import {useHistory} from "react-router-dom";
+
 
 const Square = ({value, onClick}) => {
   
@@ -14,13 +16,10 @@ const Square = ({value, onClick}) => {
 
 const Board = () => {
 
-  const [squares, setSquares] = useState(Array(9).fill(null));
-  const [isNext, setIsNext] = useState(true);
-
   const handleClick = (i) => {
     const square = squares.slice();
     if(calculateWinner(squares) || square[i]) {
-      return;
+      return; 
     }
     square[i] = isNext ? 'X': 'O';
     setSquares(square)
@@ -67,6 +66,11 @@ const Board = () => {
 }
 
 export const Game = () => {
+
+  const [squares, setSquares] = useState(Array(9).fill(null));
+  const [isNext, setIsNext] = useState(true);
+  let history = useHistory();
+
   
     return (
       <div className="game">
