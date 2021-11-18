@@ -59,6 +59,12 @@
         setIsNext(!isNext)
       }
   
+
+      const history = history;
+      const current = history[history.length -1];
+      const square = current.squares.slice();
+
+      
       
       let status;
       if(winner) {
