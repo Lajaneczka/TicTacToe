@@ -50,22 +50,30 @@
       const handleClick = (i) => {
         const history = history;
         const current = history[history.length -1];
-        const square = current.squares.slice();
-        if(calculateWinner(squares) || square[i]) {
+        const squares = current.squares.slice();
+        if(calculateWinner(squares) || squares[i]) {
           return; 
         }
-        square[i] = isNext ? 'X': 'O';
-        setSquares({history: history.concat(square)})
-        setIsNext(!isNext)
+        squares[i] = isNext ? 'X': 'O';
+        setSquares(history.concat([{squares: squares}]));
+        setIsNext(!isNext);
       }
-  
 
       const history = history;
       const current = history[history.length -1];
-      const square = current.squares.slice();
+      const winner = calculateWinner(current.squares);
 
-      
-      
+
+      const moves = history.map((step, move) => {
+        const desc = move  ? "Przejdz do ruchu #" + move : "Przejdz na poczatek gry: ";
+
+        return (
+          <li>
+            <button onClick={() => jumpTo(move)}>{desc}</button>
+          </li>
+        )
+      })
+
       let status;
       if(winner) {
         status = `Wygrywa ${winner}`
@@ -73,7 +81,6 @@
         status = `Następny gracz ${isNext ? 'X' : 'O'}`
       }
       
-
 
         return (
           <div className="game">
@@ -86,7 +93,7 @@
             </div>
             <div className="game-info">
               <div>{status}</div>
-              <ol>{/* TODO */}</ol>
+              <ol>{moves}</ol>
             </div>
           </div>
         );
